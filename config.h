@@ -62,10 +62,15 @@ static const char unknown_str[] = "n/a";
  * wifi_essid          WiFi ESSID                      interface name (wlan0)
  */
 
+static const char command[] = "a=$(amixer get Master | tail -n 1 | cut -d ' '\
+                               -f 8); if [ $a = '[on]' ]; then printf \"$(amixer \
+                                get Master | tail -n 1 | cut -d ' ' -f 7 | \
+                               grep -Po '\\[\\K[^%]*')%%\"; \
+                               else printf 'Muted'; fi";
+
 static const char display_light[] = "xbacklight -get";
 static const char bat[] = "BAT0";
 static const char format_datetime[] = "%a %F %T";
-static const char volume[] = "amixer get Master | tail -n1 | sed -r \"s/.*\\[(.*)%\\].*/\\1/\"";
 
 static const struct arg args[] = {
         /* function format          argument */
@@ -76,7 +81,7 @@ static const struct arg args[] = {
         { run_command,  ":%s%%|",      display_light }, /* Display light. */
         { battery_perc, ":%s%% ",      bat }, /* Battery percent. */
         { battery_state,"%s|",          bat }, /* Battery state. */
-        { run_command,  ":%s%%|",      volume }, /* Volume percent. */
+        { run_command,  ":%s|",        command }, /* Volume percent. */
         { keymap,       "⌨:%s|",        NULL }, /* Keyboard layout */
         { datetime,     ":%s|",        format_datetime }, /* Date time with this format: Day YYYY-MM-DD 18:00:00 */
 };
