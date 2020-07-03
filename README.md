@@ -35,13 +35,16 @@ slstatus is a suckless status monitor for window managers that use WM_NAME
 Currently slstatus works on FreeBSD, Linux and OpenBSD.
 In order to build slstatus you need the Xlib header files.
 
-If you will not change nothing of this configuration, you also will need:
+If you will not change nothing of this configuration, you will also need to install the following utilities:
 ```
 1. acpilight
 2. alsa
 ```
-ALSO, IS POSSIBLE THAT NEED CHANGE THE VALUE OF THE VARIABLE **"bat"** in case of that use a laptop and
-his battery file not find in **/sys/class/power_supply/BAT0.** Generally the value of this is: **BAT0** or **BAT1.**
+IT'S POSSIBLE THAT YOU NEED TO CHANGE THE VALUE OF THE CONSTANT **"bat"** in case you use a laptop and
+its battery file has not fond at **/sys/class/power_supply/BAT0.** Usually the value of this is: **BAT0** or **BAT1.**
+
+If you want to use "the weather view feature" you need to install [ansiweather](https://github.com/brookiestein/ansiweather) 
+which is developed by [fcambus](https://github.com/fcambus).
 
 Installation
 ------------
