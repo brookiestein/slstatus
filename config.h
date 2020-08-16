@@ -68,10 +68,11 @@ static const char vol[]         = "a=$(amixer get Master | tail -n 1 | cut -d ' 
                                 grep -Po '\\[\\K[^%]*')%%\"; \
                                 else printf 'Muted'; fi";
 
-/* Put your city's name after the -l parameter. */
-static const char weather[]     = "a=`ansiweather -l 'Your city name here'\
-                                -a false -s false -i false -w false -h false \
-                                -p false | cut -d ':' -f 2`; a=${a:1:${#a}-1}; echo -en $a";
+static const char mic[]         = "a=$(amixer get Capture | tail -n 1 | cut -d ' '\
+                                -f 8); if [ $a == '[on]' ]; then printf \"$(amixer \
+                                get Capture | tail -n 1 | cut -d ' ' -f 7 | \
+                                grep -Po '\\[\\K[^%]*')%%\"; \
+                                else printf 'Muted'; fi";
 
 static const char display_light[] = "xbacklight -get";
 static const char bat[] = "BAT0";
@@ -87,7 +88,7 @@ static const struct arg args[] = {
         { battery_perc, ":%s%% ",      bat }, /* Battery percent. */
         { battery_state,"%s|",          bat }, /* Battery state. */
         { run_command,  ":%s|",        vol }, /* Volume percent. */
+        { run_command,  ":%s|",        mic }, /* Microphone percent. */
         { keymap,       "⌨:%s|",        NULL }, /* Keyboard layout */
         { datetime,     ":%s|",        format_datetime }, /* Date time with this format: Day name YYYY-MM-DD 18:00:00 */
-        { run_command,  "☀:%s|",        weather } /* Your city's weather. */
 };
