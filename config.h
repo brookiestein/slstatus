@@ -74,17 +74,19 @@ static const char mic[]         = "a=$(amixer get Capture | tail -n 1 | cut -d '
                                 grep -Po '\\[\\K[^%]*')%%\"; \
                                 else printf 'Muted'; fi";
 
-static const char display_light[] = "xbacklight -get";
-static const char bat[] = "BAT0";
-static const char format_datetime[] = "%a %F %T";
+static const char get_light[]           = "xbacklight -get";
+static const char bat[]                 = "BAT0";
+static const char format_datetime[]     = "%F %T";
+static const char filetemp[]            = "/sys/class/thermal/thermal_zone0/temp";
 
 static const struct arg args[] = {
         /* function format          argument */
         { uptime,       "|:%s|",       NULL }, /* Uptime */
+        { temp,         "⚛:%s°C|",      filetemp }, /* Temperature. */
         { cpu_perc,     ":%s%%|",      NULL }, /* CPU used percent. */
         { ram_used,     ":%s",         NULL }, /* Free RAM. */
         { ram_total,    "/%s|",         NULL }, /* Total RAM. */
-        { run_command,  ":%s%%|",      display_light }, /* Display light. */
+        { run_command,  ":%s%%|",      get_light }, /* Display light percentage. */
         { battery_perc, ":%s%% ",      bat }, /* Battery percent. */
         { battery_state,"%s|",          bat }, /* Battery state. */
         { run_command,  ":%s|",        vol }, /* Volume percent. */
