@@ -62,32 +62,24 @@ static const char unknown_str[] = "n/a";
  * wifi_essid          WiFi ESSID                      interface name (wlan0)
  */
 
-static const char vol[]         = "a=$(amixer get Master | tail -n 1 | cut -d ' '\
-                                -f 8); if [ $a = '[on]' ]; then printf \"$(amixer \
-                                get Master | tail -n 1 | cut -d ' ' -f 7 | \
-                                grep -Po '\\[\\K[^%]*')%%\"; \
-                                else printf 'Off'; fi";
+static const char vol[]         = "[ `amixer -D pulse sget Master | tail -n 1 | awk '{print $6;}'` == \"[on]\" ] \
+                                   && printf \"`amixer -D pulse sget Master | tail -n 1 | awk '{print $5;}' | grep -Po '\\[\\K[^%]*'`%%\" \
+                                   || printf 'Off'";
 
-static const char mic[]         = "a=$(amixer get Capture | tail -n 1 | cut -d ' '\
-                                -f 8); if [ $a == '[on]' ]; then printf \"$(amixer \
-                                get Capture | tail -n 1 | cut -d ' ' -f 7 | \
-                                grep -Po '\\[\\K[^%]*')%%\"; \
-                                else printf 'Off'; fi";
+static const char mic[]         = "[ `amixer -D pulse sget Capture | tail -n 1 | awk '{print $6;}'` == \"[on]\" ] \
+                                   && printf \"`amixer -D pulse sget Capture | tail -n 1 | awk '{print $5;}' | grep -Po '\\[\\K[^%]*'`%%\" \
+                                   || printf 'Off'";
 
-static const char perc_light[]          = "xbacklight -get";
-static const char filetemp[]            = "/sys/class/thermal/thermal_zone0/temp";
+static const char light[]       = "xbacklight -get";
 
 static const struct arg args[] = {
         /* function format          argument */
-        { cpu_perc,     "|⚙️:%s%%|",     NULL }, /* CPU used percent. */
-        { temp,         "☀️:%s°C|",      filetemp }, /* CPU Temperature. */
-        { ram_used,     ":%s",         NULL }, /* Free RAM. */
-        { ram_total,    "/%s|",         NULL }, /* Total RAM. */
-        { run_command,  ":%s%%|",      perc_light }, /* Display light percentage. */
-        { battery_perc, ":%s%% ",      "BAT0" }, /* Battery percent. */
-        { battery_state,"%s|",          "BAT0" }, /* Battery state. */
-        { run_command,  ":%s|",        vol }, /* Volume percent. */
-        { run_command,  ":%s|",        mic }, /* Microphone percent. */
-        { keymap,       "⌨️:%s|",        NULL }, /* Keyboard layout */
-        { datetime,     ":%s|",        "%a %F %T" }, /* Date time with this format: Day name YYYY-MM-DD 18:00:00 */
+        { cpu_perc,     "CPU  %s%% ",  NULL }, /* % CPU used. */
+        { ram_perc,     "RAM  %s%% ",  NULL  }, /* % RAM used. */
+        { run_command,  " %s%% ",     light }, /* % Display light. */
+        { battery_perc, " %s%% ",     "BAT0" }, /* Battery percent. */
+        { battery_state,"%s ",          "BAT0" }, /* Battery state. */
+        { run_command,  " %s ",        vol }, /* Volume percent. */
+        { run_command,  " %s ",       mic }, /* Microphone percent. */
+        { datetime,     " %s",         "%a %F %T" }, /* Date time with this format: Day name YYYY-MM-DD 18:00:00 */
 };
