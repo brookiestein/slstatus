@@ -76,10 +76,11 @@ static const struct arg args[] = {
         /* function format          argument */
         { cpu_perc,     "CPU  %s%% ",  NULL }, /* % CPU used. */
         { ram_perc,     "RAM  %s%% ",  NULL  }, /* % RAM used. */
-        { run_command,  " %s%% ",     light }, /* % Display light. */
-        { battery_perc, " %s%% ",     "BAT0" }, /* Battery percent. */
+        { run_command,  " %s%% ",      light }, /* % Display light. */
+        { battery_perc, " %s%% ",      "BAT0" }, /* Battery percent. */
         { battery_state,"%s ",          "BAT0" }, /* Battery state. */
         { run_command,  " %s ",        vol }, /* Volume percent. */
-        { run_command,  " %s ",       mic }, /* Microphone percent. */
+        { run_command,  " %s ",        mic }, /* Microphone percent. */
+        { keymap,       "KBR %s ",      NULL },
         { datetime,     " %s",         "%a %F %T" }, /* Date time with this format: Day name YYYY-MM-DD 18:00:00 */
 };
