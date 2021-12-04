@@ -72,12 +72,14 @@ static const char mic[]         = "[ `amixer sget Capture | tail -n 1 | awk '{pr
 
 static const struct arg args[] = {
         /* function format          argument */
-        { cpu_perc,             "[CPU  %s%%] ",        NULL },
-        { ram_perc,             "[RAM  %s%%] ",        NULL },
-        { battery_perc,         "[ %s%% ",             "BAT0" },
-        { battery_state,        "%s] ",                 "BAT0" },
-        { run_command,          "[ %s ",               vol },
-        { run_command,          " %s] ",               mic },
-        { keymap,               "[ %s] ",              NULL },
-        { datetime,             "[ %s]",               "%a %F %T" }, /* Date time with this format: Day name YYYY-MM-DD 18:00:00 */
+        { cpu_perc,             " %s%% ",      NULL },
+        { ram_used,             " %s",         NULL },
+        { ram_perc,             "(%s%%) ",      NULL },
+        { run_command,          " %s%% ",      "xbacklight -get" },
+        { battery_perc,         " %s%%",       "BAT0" },
+        { battery_state,        "(%s) ",        "BAT0" },
+        { run_command,          " %s ",        vol },
+        { run_command,          " %s ",        mic },
+        { keymap,               " %s ",        NULL },
+        { datetime,             " %s",         "%a %F %T" }, /* Date time with this format: Day name YYYY-MM-DD 18:00:00 */
 };
