@@ -62,31 +62,27 @@ static const char unknown_str[] = "n/a";
  * wifi_essid          WiFi ESSID                      interface name (wlan0)
  */
 
-static const char vol[] = "muted=`wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $3;}'`; \
-                            volume=`wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2;}'`; \
+static const char vol[] = "muted=`wpctl get-volume @DEFAULT_SINK@ | awk '{print $3;}'`; \
+                            volume=`wpctl get-volume @DEFAULT_SINK@ | awk '{print $2;}'`; \
                             if [ -z ${muted} ]; then \
                                 printf \"${volume}\"; \
-                            else printf \"Off\"; \
+                            else printf \"MUTED\"; \
                             fi";
 
-static const char mic[] = "muted=`wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | awk '{print $3;}'`; \
-                            volume=`wpctl get-volume @DEFAULT_AUDIO_SOURCE@ | awk '{print $2;}'`; \
+static const char mic[] = "muted=`wpctl get-volume @DEFAULT_SOURCE@ | awk '{print $3;}'`; \
+                            volume=`wpctl get-volume @DEFAULT_SOURCE@ | awk '{print $2;}'`; \
                             if [ -z ${muted} ]; then \
                                 printf \"${volume}\"; \
-                            else printf \"Off\"; \
+                            else printf \"MUTED\"; \
                             fi";
 
 static const struct arg args[] = {
     /* function format          argument */
-    { cpu_perc,             " %s%% ",      NULL },
-    { ram_used,             " %s",         NULL },
-    { ram_total,            "/%s",          NULL },
-    { ram_perc,             "(%s%%) ",      NULL },
-    { run_command,          " %s%% ",      "xbacklight -get" },
-    { battery_perc,         " %s%%",       "BAT0" },
-    { battery_state,        "(%s) ",        "BAT0" },
-    { run_command,          " %s ",        vol },
-    { run_command,          " %s ",        mic },
-    { keymap,               " %s ",        NULL },
-    { datetime,             " %s",         "%a %F %T" }, /* Date time with this format: Day name YYYY-MM-DD 18:00:00 */
+    { cpu_perc,      " [󰻠 %s%%]",   NULL },
+    { ram_perc,      " [ (%s%%)]", NULL },
+    { battery_perc,  " [ %s%%",    "BAT0" },
+    { battery_state, "(%s)]",       "BAT0" },
+    { run_command,   " [  %s]",    vol },
+    { run_command,   " [ %s]",     mic },
+    { datetime,      " [ %s]",     "%F %T" }, /* Date time with this format: YYYY-MM-DD 18:00:00 */
 };
